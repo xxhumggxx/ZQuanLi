@@ -98,6 +98,17 @@ ALTER TABLE inventory_entries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE shift_finance ENABLE ROW LEVEL SECURITY;
 ALTER TABLE expenses ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist
+DO $$
+BEGIN
+    DROP POLICY IF EXISTS "Enable all for shifts" ON shifts;
+    DROP POLICY IF EXISTS "Enable all for materials" ON materials;
+    DROP POLICY IF EXISTS "Enable all for shift_reports" ON shift_reports;
+    DROP POLICY IF EXISTS "Enable all for inventory_entries" ON inventory_entries;
+    DROP POLICY IF EXISTS "Enable all for shift_finance" ON shift_finance;
+    DROP POLICY IF EXISTS "Enable all for expenses" ON expenses;
+END $$;
+
 -- Allow all operations (for simplicity - adjust for production)
 CREATE POLICY "Enable all for shifts" ON shifts FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Enable all for materials" ON materials FOR ALL USING (true) WITH CHECK (true);
