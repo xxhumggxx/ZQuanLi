@@ -70,54 +70,75 @@ footer-link { display:block; margin-top:24px; font-size:.8rem; color:var(--muted
 </div>
 
 <!-- ═══ SHIFT REPORT APP ═══ -->
-<div id="app" style="display:none; width:100%; max-width:900px; padding:20px; box-sizing:border-box;">
+<div id="app" style="display:none; width:100%; height:100vh; display:flex;">
 
-  <!-- Header -->
-  <div class="app-header">
-    <div>
-      <div class="brand-logo" style="font-size:1.5rem">🍋 Trà Chanh Zody</div>
-      <div id="shift-info" class="shift-badge" style="margin-bottom:0; margin-top:6px;"></div>
+  <!-- Sidebar -->
+  <div class="shift-sidebar">
+    <div class="sidebar-header">
+      <div class="brand-logo">🍋 Zody</div>
+      <div class="brand-sub">Trà Chanh Zody</div>
     </div>
-    <div style="display:flex;gap:10px;">
-      <button class="btn-sm btn-success" onclick="submitReport()">✅ Chốt Ca</button>
-      <button class="btn-sm btn-outline" onclick="doLogout()">Đăng Xuất</button>
+    
+    <div class="sidebar-shift-info">
+      <div class="shift-info-label">Ca làm việc</div>
+      <div id="shift-info" class="shift-info-value"></div>
+      <div class="shift-info-date" id="date-label"></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="sidebar-nav-item active" data-tab="inventory" onclick="switchTab('inventory')">
+        <span class="nav-icon">📦</span>
+        <span>Kiểm Kê</span>
+      </button>
+      <button class="sidebar-nav-item" data-tab="finance" onclick="switchTab('finance')">
+        <span class="nav-icon">💰</span>
+        <span>Thu Chi</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="sidebar-action-btn btn-success" onclick="submitReport()">
+        <span>✅</span>
+        <span>Chốt Ca</span>
+      </button>
+      <button class="sidebar-action-btn btn-outline" onclick="doLogout()">
+        <span>🚪</span>
+        <span>Đăng Xuất</span>
+      </button>
     </div>
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" data-tab="inventory" onclick="switchTab('inventory')">📦 Kiểm Kê</button>
-    <button class="tab" data-tab="finance" onclick="switchTab('finance')">💰 Thu Chi</button>
-  </div>
+  <!-- Main Content -->
+  <div class="shift-main">
+    <div class="shift-content">
 
   <!-- ══ INVENTORY TAB ══ -->
   <div id="tab-inventory" class="tab-content">
     <div class="section-header">
-      <h2>Kiểm Kê Nguyên Vật Liệu</h2>
-      <div style="font-size:.82rem;color:var(--muted)" id="date-label"></div>
+      <h2>📦 Kiểm Kê Nguyên Vật Liệu</h2>
     </div>
     <div id="inventory-container"></div>
     <button class="btn-primary mt-20" onclick="saveInventory()">💾 Lưu Kiểm Kê</button>
   </div>
 
   <!-- ══ FINANCE TAB ══ -->
-  <div id="tab-finance" class="tab-content" style="display:none">
+  <div id="tab-finance" class="tab-content" style="display:none;">
     <div class="section-header">
-      <h2>Báo Cáo Thu Chi Ca</h2>
+      <h2>💰 Thu Chi</h2>
     </div>
-
+    
     <div class="finance-grid">
       <div class="fin-card">
-        <label>💵 Tiền Đầu Ca (đ)</label>
-        <input type="number" id="opening_cash" class="fin-input" placeholder="0"/>
+        <div class="fin-label">Tiền đầu ca</div>
+        <input type="number" id="opening_cash" class="fin-input" placeholder="0" oninput="calcFinance()"/>
       </div>
       <div class="fin-card">
-        <label>🖥️ Tiền Phần Mềm (đ)</label>
-        <input type="number" id="software_revenue" class="fin-input" placeholder="0"/>
+        <div class="fin-label">Tiền phần mềm</div>
+        <input type="number" id="software_revenue" class="fin-input" placeholder="0" oninput="calcFinance()"/>
       </div>
       <div class="fin-card">
-        <label>🏦 Tiền Chuyển Khoản (đ)</label>
-        <input type="number" id="bank_transfer" class="fin-input" placeholder="0"/>
+        <div class="fin-label">Chuyển khoản</div>
+        <input type="number" id="bank_transfer" class="fin-input" placeholder="0" oninput="calcFinance()"/>
       </div>
     </div>
 
@@ -138,12 +159,21 @@ footer-link { display:block; margin-top:24px; font-size:.8rem; color:var(--muted
       </div>
     </div>
 
-    <!-- Kết quả tính tiền -->
-    <div class="finance-result mt-20" id="finance-result"></div>
+    <div class="fin-result">
+      <div class="fin-result-label">Tiền thực két</div>
+      <div class="fin-result-value" id="actual-cash">0 đ</div>
+    </div>
 
-    <button class="btn-primary mt-16" onclick="saveFinance()">💾 Lưu Thu Chi</button>
+    <div class="fin-result" id="cash-to-bring-container">
+      <div class="fin-result-label">Tiền cầm về</div>
+      <div class="fin-result-value" id="cash-to-bring">0 đ</div>
+    </div>
+
+    <button class="btn-primary mt-20" onclick="saveFinance()">💾 Lưu Thu Chi</button>
   </div>
 
+    </div>
+  </div>
 </div>
 
 <script src="/static/app.js"></script>
@@ -194,11 +224,10 @@ function doLogin() {
     hideLoading();
     if (d.error) { showErr(d.error); return; }
     reportId = d.report_id;
+    currentShiftType = d.shift_type || 'morning';
     document.getElementById('login-form').parentElement.style.display='none';
     document.getElementById('app').style.display='flex';
-    document.getElementById('app').style.flexDirection='column';
-    document.getElementById('app').style.alignItems='center';
-    document.getElementById('shift-info').innerHTML = `🌟 ${d.shift_name} – ${todayStr()}`;
+    document.getElementById('shift-info').textContent = d.shift_name;
     document.getElementById('date-label').textContent = todayStr();
     loadInventory();
     loadExpenses();
@@ -219,7 +248,7 @@ function todayStr(){
 }
 
 function switchTab(tab){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.querySelectorAll('.sidebar-nav-item').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
   document.getElementById('tab-inventory').style.display = tab==='inventory'?'block':'none';
   document.getElementById('tab-finance').style.display   = tab==='finance'?'block':'none';
 }
@@ -388,49 +417,38 @@ function loadFinance(){
     showToast('Lỗi tải thu chi', 'error');
   });
 }
+let currentShiftType = null;
+
 function calcFinance(){
   const opening  = parseFloat(document.getElementById('opening_cash').value)||0;
   const software = parseFloat(document.getElementById('software_revenue').value)||0;
   const bank     = parseFloat(document.getElementById('bank_transfer').value)||0;
   const totalExp = expenseData.reduce((s,e)=>s+parseFloat(e.amount),0);
   const actual   = software + opening - bank - totalExp;
-  const toBring  = actual - 500000 - 30000;
 
-  document.getElementById('finance-result').innerHTML = `
-    <div class="result-grid">
-      <div class="result-item">
-        <div class="result-label">💵 Tiền Đầu Ca</div>
-        <div class="result-value">${fmtMoney(opening)}đ</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">🖥️ Tiền Phần Mềm</div>
-        <div class="result-value">${fmtMoney(software)}đ</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">🏦 Chuyển Khoản</div>
-        <div class="result-value minus">−${fmtMoney(bank)}đ</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">📋 Tổng Chi</div>
-        <div class="result-value minus">−${fmtMoney(totalExp)}đ</div>
-      </div>
-      <div class="result-item highlight">
-        <div class="result-label">🗄️ Tiền Thực Trong Két</div>
-        <div class="result-value big">${fmtMoney(actual)}đ</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">🏧 Két Giữ Lại</div>
-        <div class="result-value">500,000đ</div>
-      </div>
-      <div class="result-item">
-        <div class="result-label">🐷 Tiền Lợn</div>
-        <div class="result-value">30,000đ</div>
-      </div>
-      <div class="result-item highlight-green">
-        <div class="result-label">👜 Tiền Thừa Cầm Về</div>
-        <div class="result-value big ${toBring<0?'minus':''}">${fmtMoney(toBring)}đ</div>
-      </div>
-    </div>`;
+  // Calculate cash to bring based on shift type and software revenue
+  let toBring = actual;
+  let showDeductions = false;
+
+  if (currentShiftType === 'evening') {
+    // Evening shift: subtract 500k + 30k if software revenue > 600k
+    if (software > 600000) {
+      toBring = actual - 500000 - 30000;
+      showDeductions = true;
+    }
+  }
+  // Morning/Afternoon: no deductions, only show actual cash
+
+  document.getElementById('actual-cash').textContent = fmtMoney(actual)+'đ';
+  document.getElementById('cash-to-bring').textContent = fmtMoney(toBring)+'đ';
+  
+  // Show/hide cash to bring container
+  const cashToBringContainer = document.getElementById('cash-to-bring-container');
+  if (currentShiftType === 'evening' && software > 600000) {
+    cashToBringContainer.style.display = 'flex';
+  } else {
+    cashToBringContainer.style.display = 'none';
+  }
 }
 document.addEventListener('DOMContentLoaded',()=>{
   ['opening_cash','software_revenue','bank_transfer'].forEach(id=>{
