@@ -28,7 +28,7 @@ def admin_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if not session.get("is_admin"):
-            return jsonify({"error": "Unauthorized"}), 401
+            return redirect(url_for("admin_login_page")) # Redirect to login if not admin
         return f(*args, **kwargs)
     return decorated
 
@@ -95,7 +95,7 @@ def login_shift():
         _seed_opening_inventory(report_id, shift["id"], today)
 
     session["report_id"] = report_id
-    return jsonify({"ok": True, "shift_name": shift["name"], "report_id": report_id, "is_new": is_new})
+    return jsonify({"ok": True, "shift_name": shift["name"], "shift_type": shift["shift_type"], "report_id": report_id, "is_new": is_new})
 
 def _seed_opening_inventory(new_report_id, shift_id, today):
     """Copy closing_qty của ca trước thành opening_qty của ca này."""

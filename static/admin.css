@@ -1,15 +1,15 @@
 :root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --border: #334155;
-  --primary: #ea580c;
-  --primary-dark: #c2410c;
-  --primary-soft: rgba(234, 88, 12, 0.15);
-  --text: #f1f5f9;
-  --muted: #94a3b8;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --bg: #F4F6F8;
+  --card: #FFFFFF;
+  --border: #E0E0E0;
+  --primary: #286ED6;
+  --primary-dark: #1F54B0;
+  --primary-soft: rgba(40, 110, 214, 0.1);
+  --text: #333333;
+  --muted: #757575;
+  --success: #4CAF50;
+  --danger: #F44336;
+  --warning: #FFC107;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -34,6 +34,7 @@ body.admin-body {
   left: 0;
   top: 0;
   z-index: 100;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.05);
 }
 
 .sidebar-logo {
@@ -45,6 +46,10 @@ body.admin-body {
   align-items: center;
   gap: 8px;
   border-bottom: 1px solid var(--border);
+  color: #000; /* KiotViet logo color */
+}
+.sidebar-logo span {
+    color: var(--primary);
 }
 
 .sidebar-nav {
@@ -90,12 +95,16 @@ body.admin-body {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(244, 67, 54, 0.15);
   color: var(--danger);
   border: 1px solid var(--danger);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-logout:hover {
@@ -115,6 +124,10 @@ body.admin-body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 28px;
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .page-title {
@@ -136,6 +149,9 @@ body.admin-body {
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* ── PAGES ── */
@@ -163,10 +179,12 @@ body.admin-body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .stat-icon {
   font-size: 2rem;
+  color: var(--primary);
 }
 
 .stat-label {
@@ -202,6 +220,7 @@ body.admin-body {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .card-head {
@@ -209,6 +228,9 @@ body.admin-body {
   font-weight: 700;
   margin-bottom: 20px;
   color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ── FILTER BAR ── */
@@ -218,6 +240,11 @@ body.admin-body {
   gap: 12px;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  background: var(--card);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .filter-bar label {
@@ -245,6 +272,9 @@ body.admin-body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn-primary:hover {
@@ -275,7 +305,7 @@ body.admin-body {
 }
 
 .btn-danger {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(244, 67, 54, 0.15);
   color: var(--danger);
   border: 1px solid var(--danger);
 }
@@ -288,7 +318,8 @@ body.admin-body {
 /* ── TABLES ── */
 .data-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Changed from collapse */
+  border-spacing: 0; /* Added */
 }
 
 .data-table th,
@@ -303,19 +334,28 @@ body.admin-body {
   color: var(--muted);
   font-weight: 600;
   text-transform: uppercase;
+  background: var(--bg); /* Added for sticky header effect */
+  position: sticky; /* Added */
+  top: 0; /* Added */
+  z-index: 1; /* Added */
+}
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .data-table tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--primary-soft);
 }
 
 /* ── REPORT BLOCKS ── */
 .report-block {
-  background: var(--bg);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
   margin-bottom: 16px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .report-block-head {
@@ -323,7 +363,7 @@ body.admin-body {
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
 
@@ -339,12 +379,12 @@ body.admin-body {
 }
 
 .badge-submitted {
-  background: rgba(34, 197, 94, 0.15);
+  background: rgba(76, 175, 80, 0.15);
   color: var(--success);
 }
 
 .badge-open {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(255, 193, 7, 0.15);
   color: var(--warning);
 }
 
@@ -372,7 +412,7 @@ body.admin-body {
 
 .cons-bar {
   height: 100%;
-  background: var(--warning);
+  background: var(--primary);
   border-radius: 4px;
   transition: width 0.3s;
 }
@@ -422,10 +462,11 @@ body.admin-body {
   align-items: center;
   gap: 16px;
   padding: 16px;
-  background: var(--bg);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 10px;
   margin-bottom: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .shift-info {
@@ -472,7 +513,7 @@ body.admin-body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 1000;
   align-items: center;
   justify-content: center;
@@ -491,6 +532,7 @@ body.admin-body {
   max-width: 400px;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .modal-head {
@@ -500,6 +542,7 @@ body.admin-body {
   margin-bottom: 20px;
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--text);
 }
 
 .modal-close {
@@ -509,6 +552,9 @@ body.admin-body {
   font-size: 1.2rem;
   cursor: pointer;
   padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-close:hover {
@@ -542,6 +588,7 @@ body.admin-body {
 .input-group select:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
 }
 
 .fin-input {
@@ -560,7 +607,10 @@ body.admin-body {
   align-items: center;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border);
+}
+.top-cons-item:last-child {
+    border-bottom: none;
 }
 
 .top-cons-rank {
@@ -592,6 +642,10 @@ body.admin-body {
   padding: 40px;
   color: var(--muted);
   font-size: 0.95rem;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-top: 20px;
 }
 
 /* ── TOAST ── */
@@ -672,7 +726,7 @@ body.admin-body {
 
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.02); }
 }
 
 @keyframes shimmer {
@@ -688,7 +742,7 @@ body.admin-body {
 
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
 .card {
@@ -698,7 +752,7 @@ body.admin-body {
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .shift-row {
@@ -707,8 +761,8 @@ body.admin-body {
 
 .shift-row:hover {
   transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: var(--primary-soft);
 }
 
 .report-block {
@@ -717,7 +771,7 @@ body.admin-body {
 
 .report-block:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .cons-row {
@@ -725,7 +779,7 @@ body.admin-body {
 }
 
 .cons-row:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--primary-soft);
 }
 
 .fin-stat-row {
@@ -733,7 +787,7 @@ body.admin-body {
 }
 
 .fin-stat-row:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--primary-soft);
 }
 
 /* ── BUTTON ANIMATIONS ── */
@@ -748,7 +802,7 @@ body.admin-body {
 .btn-primary::after,
 .btn-outline::after,
 .btn-logout::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -801,7 +855,7 @@ body.admin-body {
 }
 
 .nav-item::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 50%;
@@ -842,12 +896,12 @@ body.admin-body {
 }
 
 .data-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--primary-soft);
 }
 
 /* ── LOADING SKELETON ── */
 .skeleton {
-  background: linear-gradient(90deg, var(--card) 25%, rgba(255, 255, 255, 0.05) 50%, var(--card) 75%);
+  background: linear-gradient(90deg, var(--card) 25%, rgba(0, 0, 0, 0.03) 50%, var(--card) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;

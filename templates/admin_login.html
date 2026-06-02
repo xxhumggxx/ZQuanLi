@@ -7,37 +7,41 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/style.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
 body { background:var(--bg); min-height:100vh; display:flex; align-items:center; justify-content:center; }
 .login-wrap { width:100%; max-width:420px; background:var(--card); border-radius:20px; padding:48px 40px 40px; box-shadow:0 20px 60px rgba(0,0,0,.18), 0 0 0 1px var(--border); text-align:center; }
 .brand-logo { font-size:2.2rem; font-weight:800; color:var(--primary); margin-bottom:4px; }
 .brand-sub  { font-size:.85rem; color:var(--muted); margin-bottom:32px; }
-.input-group { text-align:left; margin-bottom:18px; }
+.input-group { text-align:left; margin-bottom:18px; position:relative; }
 .input-group label { font-size:.78rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; display:block; margin-bottom:8px; }
-.input-group input { width:100%; padding:14px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--bg); color:var(--text); font-size:1rem; font-family:inherit; transition:border-color .2s,box-shadow .2s; box-sizing:border-box; }
+.input-group input { width:100%; padding:14px 16px; border-radius:12px; border:1.5px solid var(--border); background:var(--bg); color:var(--text); font-size:1rem; font-family:inherit; transition:border-color .2s,box-shadow .2s; box-sizing:border-box; padding-left:45px; /* Adjust padding for icon */ }
 .input-group input:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(234,88,12,.15); }
-.btn-login { width:100%; padding:15px; border-radius:12px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; font-size:1rem; font-weight:700; border:none; cursor:pointer; transition:transform .15s,box-shadow .15s; margin-top:4px; }
+.input-icon { position:absolute; left:15px; top:48px; color:var(--muted); }
+.btn-login { width:100%; padding:15px; border-radius:12px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; font-size:1rem; font-weight:700; border:none; cursor:pointer; transition:transform .15s,box-shadow .15s; margin-top:4px; display:flex; align-items:center; justify-content:center; gap:8px; }
 .btn-login:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(234,88,12,.35); }
 .err-msg { color:#ef4444; font-size:.85rem; margin-top:12px; display:none; }
-.back-link { display:block; margin-top:20px; font-size:.82rem; color:var(--muted); text-decoration:none; }
+.back-link { display:block; margin-top:20px; font-size:.82rem; color:var(--muted); text-decoration:none; display:flex; align-items:center; justify-content:center; gap:5px; }
 .back-link:hover { color:var(--primary); }
 </style>
 </head>
 <body>
 <div class="login-wrap">
-  <div class="brand-logo">⚙️ Zody Admin</div>
+  <div class="brand-logo"><i data-lucide="settings"></i> Zody Admin</div>
   <div class="brand-sub">Trang Quản Trị Hệ Thống</div>
   <div class="input-group">
-    <label>👤 Tên Đăng Nhập</label>
+    <label>Tên Đăng Nhập</label>
+    <i data-lucide="user" class="input-icon"></i>
     <input type="text" id="uname" placeholder="admin" value="admin"/>
   </div>
   <div class="input-group">
-    <label>🔑 Mật Khẩu</label>
+    <label>Mật Khẩu</label>
+    <i data-lucide="lock" class="input-icon"></i>
     <input type="password" id="pwd" placeholder="Nhập mật khẩu..."/>
   </div>
-  <button class="btn-login" onclick="doLogin()">Đăng Nhập →</button>
+  <button class="btn-login" onclick="doLogin()">Đăng Nhập <i data-lucide="arrow-right"></i></button>
   <div class="err-msg" id="err">Sai tên đăng nhập hoặc mật khẩu</div>
-  <a href="/" class="back-link">← Quay về trang ca</a>
+  <a href="/" class="back-link"><i data-lucide="arrow-left"></i> Quay về trang ca</a>
 </div>
 <script>
 function doLogin(){
@@ -45,11 +49,12 @@ function doLogin(){
   const p = document.getElementById('pwd').value.trim();
   fetch('/api/login/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})})
     .then(r=>r.json()).then(d=>{
-      if(d.error){ const e=document.getElementById('err'); e.style.display='block'; return; }
+      if(d.error){ document.getElementById('err').style.display='block'; return; }
       location.href='/admin-panel';
     });
 }
 document.getElementById('pwd').addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); });
+lucide.createIcons();
 </script>
 </body>
 </html>

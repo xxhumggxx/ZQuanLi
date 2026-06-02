@@ -328,6 +328,16 @@ function catIcon(c){
 }
 
 async function saveInventory(){
+  // Validate inventory data
+  for (let e of inventoryData) {
+    const inp = document.getElementById(`inv-${e.id}`);
+    const closingQty = parseFloat(inp?.value||0);
+    if (closingQty < 0) {
+      showToast(`Số lượng cuối không được âm cho ${e.material_name}`, 'error');
+      return;
+    }
+  }
+  
   showLoading();
   try {
     const saves = inventoryData.map(e=>{
@@ -375,7 +385,8 @@ function hideAddExpense(){ document.getElementById('add-expense-form').style.dis
 function addExpense(){
   const desc = document.getElementById('exp-desc').value.trim();
   const amt  = parseFloat(document.getElementById('exp-amount').value)||0;
-  if (!desc||!amt) return;
+  if (!desc) { showToast('Vui lòng nhập nội dung chi tiêu', 'error'); return; }
+  if (!amt || amt <= 0) { showToast('Số tiền phải lớn hơn 0', 'error'); return; }
   showLoading();
   fetch('/api/expenses',{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({description:desc,amount:amt})
@@ -457,11 +468,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 function saveFinance(){
+  const opening = parseFloat(document.getElementById('opening_cash').value)||0;
+  const software = parseFloat(document.getElementById('software_revenue').value)||0;
+  const bank = parseFloat(document.getElementById('bank_transfer').value)||0;
+  
+  if (opening < 0) { showToast('Tiền đầu ca không được âm', 'error'); return; }
+  if (software < 0) { showToast('Tiền phần mềm không được âm', 'error'); return; }
+  if (bank < 0) { showToast('Tiền chuyển khoản không được âm', 'error'); return; }
+  
   showLoading();
   const payload = {
-    opening_cash:     parseFloat(document.getElementById('opening_cash').value)||0,
-    software_revenue: parseFloat(document.getElementById('software_revenue').value)||0,
-    bank_transfer:    parseFloat(document.getElementById('bank_transfer').value)||0,
+    opening_cash: opening,
+    software_revenue: software,
+    bank_transfer: bank,
   };
   fetch('/api/finance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
     .then(()=>{
