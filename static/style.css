@@ -1,0 +1,694 @@
+/* ══════════════════════════════════════════════
+   TRÀ CHANH ZODY – Base Styles
+   ══════════════════════════════════════════════ */
+
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --border: #334155;
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+  --primary-soft: rgba(234, 88, 12, 0.15);
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Be Vietnam Pro', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ── BUTTONS ── */
+.btn-primary {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-success {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: var(--success);
+  color: white;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--bg);
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab.active {
+  background: var(--primary);
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* ── INVENTORY STYLES ── */
+.inv-category {
+  margin-bottom: 24px;
+}
+
+.inv-cat-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--primary);
+}
+
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.inv-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.inv-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.inv-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.inv-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.inv-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.inv-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.inv-unit {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.inv-consumed {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.inv-note {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.tag-warn {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.tag-ok {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.tag-neutral {
+  color: var(--muted);
+}
+
+/* ── FINANCE STYLES ── */
+.finance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.fin-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.fin-card label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.fin-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.fin-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.fin-input-sm {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-right: 8px;
+}
+
+.add-expense-form {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+/* ── EXPENSE LIST ── */
+.expense-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.exp-desc {
+  flex: 1;
+  font-weight: 600;
+}
+
+.exp-amount {
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.btn-icon-del {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-icon-del:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ── FINANCE RESULT ── */
+.finance-result {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.result-item {
+  text-align: center;
+  padding: 12px;
+  background: var(--card);
+  border-radius: 8px;
+}
+
+.result-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.result-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.result-value.big {
+  font-size: 1.4rem;
+}
+
+.result-value.minus {
+  color: var(--danger);
+}
+
+.result-item.highlight {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary);
+}
+
+.result-item.highlight-green {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid var(--success);
+}
+
+.result-item.highlight-green .result-value {
+  color: var(--success);
+}
+
+/* ── APP HEADER ── */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── UTILITY CLASSES ── */
+.mt-20 { margin-top: 20px; }
+.mt-16 { margin-top: 16px; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ── ANIMATED ELEMENTS ── */
+.login-wrap {
+  animation: scaleIn 0.5s ease-out;
+}
+
+.btn-login {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-login::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btn-login:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+.card {
+  animation: fadeInUp 0.5s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.inv-item {
+  animation: fadeInUp 0.5s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.inv-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.fin-card {
+  animation: fadeInUp 0.5s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.expense-row {
+  animation: slideIn 0.3s ease-out;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.expense-row:hover {
+  transform: translateX(4px);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.result-item {
+  animation: fadeInUp 0.5s ease-out;
+  transition: transform 0.2s ease;
+}
+
+.result-item:hover {
+  transform: scale(1.02);
+}
+
+/* ── BUTTON ANIMATIONS ── */
+.btn-primary,
+.btn-outline,
+.btn-success {
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after,
+.btn-outline::after,
+.btn-success::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btn-primary:active::after,
+.btn-outline:active::after,
+.btn-success:active::after {
+  width: 200px;
+  height: 200px;
+}
+
+.btn-sm {
+  transition: all 0.2s ease;
+}
+
+.btn-sm:hover {
+  transform: scale(1.05);
+}
+
+.btn-sm:active {
+  transform: scale(0.95);
+}
+
+.btn-icon-del {
+  transition: all 0.2s ease;
+}
+
+.btn-icon-del:hover {
+  transform: rotate(90deg);
+}
+
+/* ── INPUT ANIMATIONS ── */
+.input-group input,
+.inv-input,
+.fin-input,
+.fin-input-sm {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.input-group input:focus,
+.inv-input:focus,
+.fin-input:focus,
+.fin-input-sm:focus {
+  transform: scale(1.01);
+}
+
+.inv-note {
+  transition: border-color 0.2s ease;
+}
+
+.inv-note:focus {
+  border-color: var(--primary);
+}
+
+/* ── TAB ANIMATIONS ── */
+.tab {
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  transform: translateY(-1px);
+}
+
+.tab.active {
+  animation: pulse 0.3s ease;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ── SHIFT BADGE ANIMATION ── */
+.shift-badge {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* ── LOADING SKELETON ── */
+.skeleton {
+  background: linear-gradient(90deg, var(--card) 25%, rgba(255, 255, 255, 0.05) 50%, var(--card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ── SPINNER FOR LOADING ── */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(234, 88, 12, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .finance-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .inv-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .result-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
