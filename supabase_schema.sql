@@ -136,6 +136,86 @@ INSERT INTO materials (category, name, unit, default_value, sort_order) VALUES
 ('KHÁC', 'Lá Nếp', 'bó', 5, 2)
 ON CONFLICT DO NOTHING;
 
+-- Sample Shift Reports (for testing admin dashboard)
+-- Get shift IDs
+DO $$
+DECLARE
+    morning_shift_id UUID;
+    afternoon_shift_id UUID;
+    evening_shift_id UUID;
+    morning_report_id UUID;
+    afternoon_report_id UUID;
+    evening_report_id UUID;
+BEGIN
+    SELECT id INTO morning_shift_id FROM shifts WHERE name = 'Ca Sáng' LIMIT 1;
+    SELECT id INTO afternoon_shift_id FROM shifts WHERE name = 'Ca Chiều' LIMIT 1;
+    SELECT id INTO evening_shift_id FROM shifts WHERE name = 'Ca Tối' LIMIT 1;
+    
+    -- Create sample reports for today
+    INSERT INTO shift_reports (shift_id, shift_name, report_date, status, submitted_at)
+    VALUES (morning_shift_id, 'Ca Sáng', CURRENT_DATE, 'submitted', NOW() - INTERVAL '8 hours')
+    RETURNING id INTO morning_report_id;
+    
+    INSERT INTO shift_reports (shift_id, shift_name, report_date, status, submitted_at)
+    VALUES (afternoon_shift_id, 'Ca Chiều', CURRENT_DATE, 'submitted', NOW() - INTERVAL '4 hours')
+    RETURNING id INTO afternoon_report_id;
+    
+    INSERT INTO shift_reports (shift_id, shift_name, report_date, status, submitted_at)
+    VALUES (evening_shift_id, 'Ca Tối', CURRENT_DATE, 'submitted', NOW() - INTERVAL '1 hour')
+    RETURNING id INTO evening_report_id;
+    
+    -- Sample Finance Data
+    INSERT INTO shift_finance (report_id, opening_cash, software_revenue, bank_transfer, total_expense, register_keep, pig_keep)
+    VALUES 
+    (morning_report_id, 500000, 850000, 200000, 50000, 500000, 30000),
+    (afternoon_report_id, 500000, 650000, 150000, 30000, 500000, 30000),
+    (evening_report_id, 500000, 750000, 180000, 40000, 500000, 30000);
+    
+    -- Sample Expenses
+    INSERT INTO expenses (report_id, description, amount)
+    VALUES 
+    (morning_report_id, 'Mua đá', 50000),
+    (afternoon_report_id, 'Mua đường', 30000),
+    (evening_report_id, 'Mua ly nhựa', 40000);
+    
+    -- Sample Inventory Entries (for a few materials)
+    INSERT INTO inventory_entries (report_id, material_id, material_name, opening_qty, closing_qty, unit)
+    SELECT 
+        morning_report_id,
+        id,
+        name,
+        default_value,
+        default_value - (random() * 2),
+        unit
+    FROM materials 
+    WHERE is_active = true
+    LIMIT 5;
+    
+    INSERT INTO inventory_entries (report_id, material_id, material_name, opening_qty, closing_qty, unit)
+    SELECT 
+        afternoon_report_id,
+        id,
+        name,
+        default_value,
+        default_value - (random() * 2),
+        unit
+    FROM materials 
+    WHERE is_active = true
+    LIMIT 5;
+    
+    INSERT INTO inventory_entries (report_id, material_id, material_name, opening_qty, closing_qty, unit)
+    SELECT 
+        evening_report_id,
+        id,
+        name,
+        default_value,
+        default_value - (random() * 2),
+        unit
+    FROM materials 
+    WHERE is_active = true
+    LIMIT 5;
+END $$;
+
 -- ── FUNCTIONS FOR UPDATED_AT ───────────────────────────
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
